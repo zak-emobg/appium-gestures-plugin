@@ -64,7 +64,7 @@ MobileElement source = (MobileElement) new WebDriverWait(driver, 30)
 
 driver.addCommand(HttpMethod.POST, String.format("/session/%s/plugin/actions/swipe", 
            driver.getSessionId()), "swipe");
-driver.execute("dragAndDrop", ImmutableMap.of("elementId", source.getId(), "percentage", 50));
+driver.execute("swipe", ImmutableMap.of("elementId", source.getId(), "percentage", 50));
 ```
 
 ## Supported
