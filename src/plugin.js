@@ -1,6 +1,7 @@
 import BasePlugin from '@appium/base-plugin';
 import dragAndDrop from './gestures/dragAndDrop';
-import SwipeBuilder from './gestures/swipe';
+import LeftRightSwipeBuilder from './gestures/leftRightSwipe';
+import RightLeftSwipeBuilder from './gestures/rightLeftSwipe';
 
 const SOURCE_URL_RE = new RegExp('/session/[^/]+/plugin/actions/');
 
@@ -16,9 +17,15 @@ export default class GesturesPlugin extends BasePlugin {
         payloadParams: { required: ['sourceId', 'destinationId'] },
       },
     },
-    '/session/:sessionId/plugin/actions/swipe': {
+    '/session/:sessionId/plugin/actions/leftRightSwipe': {
       POST: {
-        command: 'swipe',
+        command: 'leftRightSwipe',
+        payloadParams: { required: ['elementId', 'percentage'] },
+      },
+    },
+    '/session/:sessionId/plugin/actions/rightLeftSwipe': {
+      POST: {
+        command: 'rightLeftSwipe',
         payloadParams: { required: ['elementId', 'percentage'] },
       },
     },
@@ -29,9 +36,14 @@ export default class GesturesPlugin extends BasePlugin {
     return SOURCE_URL_RE.test(route);
   }
 
-  async swipe(next, driver) {
-    const builder = SwipeBuilder(this.body, driver);
-    await builder.horizontal;
+  async leftRightSwipe(next, driver) {
+    const builder = LeftRightSwipeBuilder(this.body, driver);
+    await builder.leftRight;
+  }
+
+  async rightLeftSwipe(next, driver) {
+    const builder = RightLeftSwipeBuilder(this.body, driver);
+    await builder.rightLeft;
   }
 
   async dragAndDrop(next, driver) {
